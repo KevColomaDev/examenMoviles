@@ -7,7 +7,15 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">books-list</ion-title>
+      <ion-title size="large">Lista de libros</ion-title>
     </ion-toolbar>
   </ion-header>
+  <ion-card *ngFor="let title of bookTitles; let i = index">
+    <img alt="A random image" src="{{dogImages[i]}}" />
+    <ion-card-header>
+      <ion-card-title>{{title}}</ion-card-title>
+    </ion-card-header>
+  </ion-card>
+
+  <button (click)="saveDataToFirestore()">Guardar en Firebase</button>
 </ion-content>
