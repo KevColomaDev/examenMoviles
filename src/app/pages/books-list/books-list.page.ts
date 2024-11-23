@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { LibroService } from 'src/app/services/libro.service';
-import { getFirestore, collection, addDoc } from '@angular/fire/firestore';
+import { Firestore, collectionData, collection, addDoc } from '@angular/fire/firestore';
 
 
 @Component({
@@ -16,7 +16,7 @@ export class BooksListPage implements OnInit {
   robotImage = '';
   dogImage = '';
 
-  constructor(private libroService: LibroService) { }
+  constructor(private libroService: LibroService, private firestore: Firestore) { }
 
   // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
   async ngOnInit() {
@@ -51,20 +51,18 @@ export class BooksListPage implements OnInit {
     }
   }
 
-  async saveDataToFirestore() {
+ async saveDataToFirestore() {
     try {
-      const data = {
+      const booksList = {
         bookTitles: this.bookTitles,
-        dogImages: this.dogImages,
+        dogImages: this.dogImages
       }
-      const db = getFirestore();
-      const booksRef = collection(db, 'books');
-      const docRef = await addDoc(booksRef, data);
+      const collectionInstance = collection(this.firestore, 'books');
+      const docRef = await addDoc(collectionInstance, booksList);
       return docRef;
     } catch (error) {
       console.log(error);
       return error;
     }
   }
-
 }
